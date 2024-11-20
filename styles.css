@@ -1,0 +1,215 @@
+/* General Body Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F5F8F9;
+    color: #333;
+}
+
+/* Header Styles */
+h1 {
+    text-align: center;
+    color: #005A72; /* Hospital blue */
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Form Styles */
+form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+form p {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+form input, form button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Button Styles */
+form button {
+    background-color: #007A8D; /* Hospital green */
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+form button:hover {
+    background-color: #006C74;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 1.1em;
+}
+
+table th {
+    background-color: #009AC4; /* Light blue */
+    color: white;
+}
+
+table td {
+    background-color: #F9F9F9;
+}
+
+/* Link Styles */
+a {
+    color: #005A72;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Message Styles */
+.message {
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    margin: 20px 0;
+    border-radius: 5px;
+    font-size: 1.1em;
+}
+
+.message.success {
+    background-color: #28a745; 
+}
+
+.message.error {
+    background-color: #28a745; 
+}
+
+/* Clear Search Link */
+.clear-search {
+    color: #007A8D;
+    font-size: 1.1em;
+}
+
+.clear-search:hover {
+    text-decoration: underline;
+}
+
+/* Page Layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background-color: #003F51; /* Dark blue */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+footer {
+    background-color: #003F51;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 1em;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    form {
+        padding: 15px;
+    }
+
+    table th, table td {
+        font-size: 1em;
+    }
+}
+
+/* Styling for the delete confirmation page */
+.confirmation-container {
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 30px;
+    margin: 50px auto;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.confirmation-container h1 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.confirmation-container p {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.confirmation-container .confirm-btn,
+.confirmation-container .back-btn {
+    font-size: 1.1em;
+    padding: 15px 25px;
+    margin: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.confirmation-container .confirm-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+
+.confirmation-container .confirm-btn:hover {
+    background-color: #45a049;
+}
+
+.confirmation-container .back-btn {
+    background-color: #f44336;
+    color: white;
+    text-align: center;
+}
+
+.confirmation-container .back-btn:hover {
+    background-color: #d32f2f;
+}

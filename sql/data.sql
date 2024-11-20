@@ -10,6 +10,7 @@ CREATE TABLE job_applicants (
     date_applied DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Insert 35 sample records with unique names and different dates
 INSERT INTO job_applicants (first_name, last_name, email, specialization, experience, hospital, phone_number, date_applied) 
 VALUES
 ("John", "Doe", "johndoe@example.com", "Cardiology", 5, "Saint Mary''s Hospital", "123-456-7890", "2024-11-01 09:15:30"),

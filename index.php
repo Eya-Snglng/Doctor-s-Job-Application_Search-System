@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start();  // Make sure session is started at the top of the file
 require_once 'core/dbConfig.php';
 require_once 'core/models.php';
 
@@ -14,6 +14,7 @@ if (isset($_GET['searchBtn'])) {
     $message = $allApplicants['message'];
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,9 +29,11 @@ if (isset($_GET['searchBtn'])) {
             Doctor Job Applicants Management System
         </header>
         
-        <!-- Display Success or Error Message -->
-        <?php if (!empty($message)) { echo "<p class='message success'>$message</p>"; } ?>
-        <?php if (!empty($searchSuccessMessage)) { echo "<p class='message success'>$searchSuccessMessage</p>"; } ?>
+        <!-- Display Success Message -->
+        <?php if (isset($_SESSION['message'])): ?>
+            <p class="message success"><?php echo $_SESSION['message']; ?></p>
+            <?php unset($_SESSION['message']); // Clear the message after displaying it ?>
+        <?php endif; ?>
 
         <h1>Job Applicants</h1>
 

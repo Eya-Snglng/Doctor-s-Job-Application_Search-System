@@ -1,86 +1,91 @@
-<?php require_once 'core/dbConfig.php'; ?>
-<?php require_once 'core/models.php'; ?>
+<?php
+session_start();  // Make sure session is started at the top of the file
+require_once 'core/dbConfig.php';
+require_once 'core/models.php';
+
+if (isset($_GET['searchBtn'])) {
+    $searchResult = searchApplicants($pdo, $_GET['searchInput']);
+    $applicants = $searchResult['querySet'] ?? [];
+    $message = $searchResult['message'];
+    $searchSuccessMessage = !empty($applicants) ? "Search completed successfully! Found " . count($applicants) . " result(s)." : "No applicants found matching your search.";
+} else {
+    $allApplicants = getAllApplicants($pdo);
+    $applicants = $allApplicants['querySet'] ?? [];
+    $message = $allApplicants['message'];
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-	<link rel="stylesheet" href="styles.css">
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctors' Job Applications</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="container">
+        <header>
+            Doctor Job Applicants Management System
+        </header>
+        
+        <!-- Display Success Message -->
+        <?php if (isset($_SESSION['message'])): ?>
+            <p class="message success"><?php echo $_SESSION['message']; ?></p>
+            <?php unset($_SESSION['message']); // Clear the message after displaying it ?>
+        <?php endif; ?>
 
-	<?php if (isset($_SESSION['message'])) { ?>
-		<h1 style="color: green; text-align: center; background-color: ghostwhite; border-style: solid;">	
-			<?php echo $_SESSION['message']; ?>
-		</h1>
-	<?php } unset($_SESSION['message']); ?>
+        <h1>Job Applicants</h1>
 
-	<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="GET">
-		<input type="text" name="searchInput" placeholder="Search here">
-		<input type="submit" name="searchBtn">
-	</form>
+        <form action="index.php" method="GET">
+            <input type="text" name="searchInput" placeholder="Search for applicants">
+            <input type="submit" name="searchBtn" value="Search">
+        </form>
 
-	<p><a href="index.php">Clear Search Query</a></p>
-	<p><a href="insert.php">Insert New User</a></p>
+        <p><a class="clear-search" href="index.php">Clear Search</a></p>
+        <p><a href="insert.php">Insert New Applicant</a></p>
 
-	<table style="width:100%; margin-top: 20px;">
-		<tr>
-			<th>First Name</th>
-			<th>Last Name</th>
-			<th>Email</th>
-			<th>Gender</th>
-			<th>Address</th>
-			<th>State</th>
-			<th>Nationality</th>
-			<th>Car Brand</th>
-			<th>Date Added</th>
-			<th>Action</th>
-		</tr>
+        <table>
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Specialization</th>
+                    <th>Experience</th>
+                    <th>Hospital</th>
+                    <th>Phone Number</th>
+                    <th>Date Applied</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($applicants)) {
+                    foreach ($applicants as $applicant) { ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($applicant['first_name']); ?></td>
+                            <td><?php echo htmlspecialchars($applicant['last_name']); ?></td>
+                            <td><?php echo htmlspecialchars($applicant['email']); ?></td>
+                            <td><?php echo htmlspecialchars($applicant['specialization']); ?></td>
+                            <td><?php echo htmlspecialchars($applicant['experience']); ?></td>
+                            <td><?php echo htmlspecialchars($applicant['hospital']); ?></td>
+                            <td><?php echo htmlspecialchars($applicant['phone_number']); ?></td>
+                            <td><?php echo htmlspecialchars($applicant['date_applied']); ?></td>
+                            <td>
+                                <a href="edit.php?id=<?php echo $applicant['id']; ?>">Edit</a>
+                                <a href="delete.php?id=<?php echo $applicant['id']; ?>">Delete</a>
+                            </td>
+                        </tr>
+                    <?php }
+                } else {
+                    echo '<tr><td colspan="9">No applicants found.</td></tr>';
+                } ?>
+            </tbody>
+        </table>
 
-		<?php if (!isset($_GET['searchBtn'])) { ?>
-			<?php $getAllUsers = getAllUsers($pdo); ?>
-				<?php foreach ($getAllUsers as $row) { ?>
-					<tr>
-						<td><?php echo $row['first_name']; ?></td>
-						<td><?php echo $row['last_name']; ?></td>
-						<td><?php echo $row['email']; ?></td>
-						<td><?php echo $row['gender']; ?></td>
-						<td><?php echo $row['address']; ?></td>
-						<td><?php echo $row['state']; ?></td>
-						<td><?php echo $row['nationality']; ?></td>
-						<td><?php echo $row['car_brand']; ?></td>
-						<td><?php echo $row['date_added']; ?></td>
-						<td>
-							<a href="edit.php?id=<?php echo $row['id']; ?>">Edit</a>
-							<a href="delete.php?id=<?php echo $row['id']; ?>">Delete</a>
-						</td>
-					</tr>
-			<?php } ?>
-			
-		<?php } else { ?>
-			<?php $searchForAUser =  searchForAUser($pdo, $_GET['searchInput']); ?>
-				<?php foreach ($searchForAUser as $row) { ?>
-					<tr>
-						<td><?php echo $row['first_name']; ?></td>
-						<td><?php echo $row['last_name']; ?></td>
-						<td><?php echo $row['email']; ?></td>
-						<td><?php echo $row['gender']; ?></td>
-						<td><?php echo $row['address']; ?></td>
-						<td><?php echo $row['state']; ?></td>
-						<td><?php echo $row['nationality']; ?></td>
-						<td><?php echo $row['car_brand']; ?></td>
-						<td><?php echo $row['date_added']; ?></td>
-						<td>
-							<a href="edit.php?id=<?php echo $row['id']; ?>">Edit</a>
-							<a href="delete.php?id=<?php echo $row['id']; ?>">Delete</a>
-						</td>
-					</tr>
-				<?php } ?>
-		<?php } ?>	
-		
-	</table>
+        <footer>
+            Doctor Job Applicants Management System - 2024
+        </footer>
+    </div>
 </body>
 </html>
